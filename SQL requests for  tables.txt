@@ -1,0 +1,71 @@
+drop  database if exists game_industry; 
+create database game_industry DEFAULT CHARACTER SET utf8;
+
+use game_industry;
+
+DROP TABLE if exists games ; 
+
+DROP TABLE if exists studios ; 
+
+DROP TABLE if exists publishers ;
+
+CREATE TABLE `game_industry`.`publishers` (
+  `publisher_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL COMMENT '',
+  `main_office` VARCHAR(45) NULL COMMENT '',
+  PRIMARY KEY (`publisher_id`)  COMMENT '');
+  
+insert into `game_industry`.`publishers` (`publisher_id`, `name`, `main_office`) values ('1', 'Sony', 'Japan');
+insert into `game_industry`.`publishers` (`publisher_id`, `name`, `main_office`) values ('2', 'Microsoft', 'USA');
+  
+CREATE TABLE `game_industry`.`studios` (
+  `studio_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL COMMENT '',
+  `developers` BIGINT NULL COMMENT '',
+  `publisher_id` BIGINT NULL COMMENT '',
+  PRIMARY KEY (`studio_id`)  COMMENT '',
+  CONSTRAINT `pk`
+    FOREIGN KEY (`publisher_id`)
+    REFERENCES `game_industry`.`publishers` (`publisher_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+  
+INSERT INTO `game_industry`.`studios` (`studio_id`, `name`, `developers`, `publisher_id`) VALUES ('1', 'Naughty Dog', '500', '1');
+INSERT INTO `game_industry`.`studios` (`studio_id`, `name`, `developers`, `publisher_id`) VALUES ('2', '343 Industries', '450', '2');
+INSERT INTO `game_industry`.`studios` (`studio_id`, `name`, `developers`, `publisher_id`) VALUES ('3', 'Obsidian entertainment', '170', '2');
+INSERT INTO `game_industry`.`studios` (`studio_id`, `name`, `developers`, `publisher_id`) VALUES ('4', 'Insomniac Games', '400', '1');
+
+
+  
+  CREATE TABLE `game_industry`.`games` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL COMMENT '',
+  `score` double NULL COMMENT '',
+  `sales` bigint NULL COMMENT '',
+  `studio_id` BIGINT NULL COMMENT '',
+  PRIMARY KEY (`id`)  COMMENT '',
+  CONSTRAINT `sk`
+    FOREIGN KEY (`studio_id`)
+    REFERENCES `game_industry`.`studios` (`studio_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
+INSERT INTO `game_industry`.`games` (`id`, `name`, `score`, `sales`, `studio_id`) VALUES ('1', 'Ratchet & Clank: Rift Apart', '8.9', '1100000', '4');
+INSERT INTO `game_industry`.`games` (`id`, `name`, `score`, `sales`, `studio_id`) VALUES ('2', 'Halo Wars 2', '7.1', '1000000', '2');
+INSERT INTO `game_industry`.`games` (`id`, `name`, `score`, `sales`, `studio_id`) VALUES ('3', 'Spider-Man', '8.7', '20000000', '4');
+INSERT INTO `game_industry`.`games` (`id`, `name`, `score`, `sales`, `studio_id`) VALUES ('4', 'The Outer Worlds', '8.7', '4000000', '3');
+INSERT INTO `game_industry`.`games` (`id`, `name`, `score`, `sales`, `studio_id`) VALUES ('5', 'Pillars of Eternity 2: Deadfire', '8.8', '110000', '3');
+
+CREATE TABLE `users` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`username` varchar(64) NOT NULL,
+	`password` varchar(64) NOT NULL,
+	`authority` varchar(64) NOT NULL,
+	PRIMARY KEY (`id`)
+);
+
+
+insert into `users` (id, username, password, authority) values 
+	(1, 'admin', '$2a$10$jrryFNptnoGWwyWhxc47eeeHpin/LPOut7J221Xv4DB3qTswVcvJS', 'ROLE_ADMIN'), (пароль: admin)
+	(2, 'user', '$2a$10$I0BOCCDqRH6905RIlUmgd.2L008fmT3QvFtjEynyJQ2WoKDFRNGo6','ROLE_USER'); (пароль: user)
+
